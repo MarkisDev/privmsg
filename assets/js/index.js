@@ -1,5 +1,3 @@
-"use strict";
-import CryptoJS from "crypto-js";
 
 // Function to encrypt text
 function encryptText(text, password)
