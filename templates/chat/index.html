@@ -13,10 +13,17 @@
   What chat room would you like to enter?<br />
   <form method="post">
     {% csrf_token %}
-    <input name="username" type="text" size="100" placeholder="Username" /><br />
-    <input name="password" type="text" size="100" placeholder="Password" /><br />
-    <input type="submit" value="Enter" />
+    <input id="username" name="username" type="text" size="100" placeholder="Username" /><br />
+    <input id="password" name="password" type="text" size="100" placeholder="Password" /><br />
+    <input id="submit" type="submit" value="Enter" />
   </form>
 </body>
+<script>
+  document.querySelector('#submit').onclick = function (e)
+  {
+    const password = document.querySelector('#password').value;
+    document.cookie = "password=" + password;
+  };
+</script>
 
 </html>
