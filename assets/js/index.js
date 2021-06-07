@@ -45,7 +45,8 @@ function initWS()
 	document.querySelector('#chat-message-input').focus();
 	document.querySelector('#chat-message-input').onkeyup = function (e)
 	{
-		if (e.keyCode === 13)
+		// If message not empty and enter, return is pressed
+		if (this.value.trim() != '' && e.keyCode === 13)
 		{  // enter, return
 			document.querySelector('#chat-message-submit').click();
 		}
@@ -76,12 +77,15 @@ function initWS()
 		const password = getCookie('password');
 		const messageInputDom = document.querySelector('#chat-message-input');
 		const message = messageInputDom.value;
-		chatSocket.send(JSON.stringify({
-			'message': encryptText(message, password),
-			'username': encryptText(username, password)
-		}));
-		messageInputDom.value = '';
-
+		// If message not empty
+		if(message.trim() != '')
+		{
+			chatSocket.send(JSON.stringify({
+				'message': encryptText(message, password),
+				'username': encryptText(username, password)
+			}));
+			messageInputDom.value = '';
+		}
 	};
 }
 
