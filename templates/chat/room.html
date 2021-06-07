@@ -9,83 +9,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"
         integrity="sha512-nOQuvD9nKirvxDdvQ9OMqe2dgapbPB7vYAMrzJihw5m+aNcf0dX53m6YxM4LgA9u8e9eg9QX+/+mPu8kCNpV2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% load static %}
+    <script src="{% static 'js/index.js' %}"></script>
 </head>
 
-<body>
+<body onload="initWS()">
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
-    <script src="{% static 'js/index.js' %}"></script>
 
     {{ room_name|json_script:"room-name" }}
     {{ username|json_script:"username" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
-
-        chatSocket.onmessage = function (e)
-        {
-            const username = JSON.parse(document.getElementById('username').textContent);
-            const password = getCookie('password');
-            const data = JSON.parse(e.data);
-            console.log(data.username);
-            document.querySelector('#chat-log').value += (decryptText(data.username, password)) + ":" + (decryptText(data.message, password) + '\n');
-        };
-
-        chatSocket.onclose = function (e)
-        {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function (e)
-        {
-            if (e.keyCode === 13)
-            {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-        // TO get cookies
-        function getCookie(cname)
-        {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for (var i = 0; i < ca.length; i++)
-            {
-                var c = ca[i];
-                while (c.charAt(0) == ' ')
-                {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0)
-                {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-        document.querySelector('#chat-message-submit').onclick = function (e)
-        {
-            const username = JSON.parse(document.getElementById('username').textContent);
-            const password = getCookie('password');
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': encryptText(message, password),
-                'username': encryptText(username, password)
-            }));
-            messageInputDom.value = '';
-
-        };
-    </script>
 </body>
 
 </html>
