@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&family=Poppins:wght@400;500&display=swap');
+
+*{    
+    font-family: 'Poppins', sans-serif;
+}
+html{
+    min-height: 100% !important;
+    height: 100%;    
+}
+body{
+    background: #000000 !important;
+    color: #fff !important;
+}
+
+html, body {
+    margin: 0px; 
+    height: 100%; 
+} 
+/* .box { background: red; height: 100%; } */
+/* .box { 
+    background: red; 
+    height: 90vh; 
+    width: 95%;
+    margin: auto;
+} */
+.box { 
+    background: #1d1d1d; 
+    position: absolute; 
+    top: 22px; 
+    right: 30px; 
+    bottom: 20px; 
+    left: 30px; 
+    border-radius: 10px;
+}
+
+
+.user-box-PrivMsg{
+    height: 38px;
+    width: 38px;
+    background-color: #000;
+    border-radius: 10px;
+}
+.user-box{
+    height: 38px;
+    width: 38px;
+    background-color: rgb(162, 8, 8);
+    border-radius: 10px;
+}
+.user-box-PrivMsg p{
+    font-size: 11px;
+}
+
+.user-name{
+    width: 75px;
+    height: 27px;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+}
+.user-time{
+    font-size: 8px;
+}
+.user-texts{
+    font-size: 11px;
+    font-weight: 200;
+    letter-spacing: 0.04em;
+}
+.user-texts strong{
+    font-weight: 600;
+}
+
+.chat-box{
+    position: absolute;
+    bottom: 0;
+}
+.chat-box input{
+    background: #4F4F4F;
+    border: none;
+}
+.chat-box input:focus{
+    outline: none;
+    box-shadow: none;
+    background: #4F4F4F;
+    color: #fff;
+}
+
+
