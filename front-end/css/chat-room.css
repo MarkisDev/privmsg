@@ -25,12 +25,14 @@ html, body {
 } */
 .box { 
     background: #1d1d1d; 
-    position: absolute; 
-    top: 22px; 
-    right: 30px; 
-    bottom: 20px; 
-    left: 30px; 
+    height: 100%;
     border-radius: 10px;
+    overflow: hidden;
+}
+
+.main-box {
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .users, .message{
@@ -69,20 +71,26 @@ html, body {
     font-size: 14px;
     font-weight: 200;
     letter-spacing: 0.04em;
+    word-wrap: break-word;
+    padding-right: 100px;
 }
 .user-texts strong{
     font-weight: 600;
+    word-wrap: break-word;
 }
 
 .chat-box{
     position: absolute;
     bottom: 0;
 }
-.chat-box input{
+.chat-box textarea{
     background: #4F4F4F;
     border: none;
+    resize: none;
+    text-align: left;
+    
 }
-.chat-box input:focus{
+.chat-box textarea:focus{
     outline: none;
     box-shadow: none;
     background: #4F4F4F;
@@ -93,11 +101,20 @@ html, body {
 }
 
 .send-button{
-    width: 25px;;
-    height: 36px;
-    background: #4F4F4F;
-    position: absolute;
-    top:0;
-    right: 0;
+    background-color: #4F4F4F;
+    background-image: url(../send.svg);
+    background-size: 100% 100%;
+    border: 0;
+    padding: 8px 15px;
 }
   
+@media only screen and (max-width: 600px) { 
+    .brand {
+        font-size: 20px;
+    }
+
+    .box { 
+        background: #1d1d1d; 
+        position: absolute; 
+    }
+}
