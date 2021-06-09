@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&family=Poppins:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 *{    
     font-family: 'Poppins', sans-serif;
@@ -33,12 +33,20 @@ html, body {
     border-radius: 10px;
 }
 
+.users, .message{
+    font-size: 15px;
+}
+
+.brand{
+    font-size: 24px;
+}
 
 .user-box-PrivMsg{
     height: 38px;
     width: 38px;
     background-color: #000;
     border-radius: 10px;
+    font-size: 11px;
 }
 .user-box{
     height: 38px;
@@ -46,21 +54,19 @@ html, body {
     background-color: rgb(162, 8, 8);
     border-radius: 10px;
 }
-.user-box-PrivMsg p{
-    font-size: 11px;
-}
 
 .user-name{
     width: 75px;
     height: 27px;
     letter-spacing: 0.02em;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 16px;
 }
 .user-time{
-    font-size: 8px;
+    font-size: 10px;
 }
 .user-texts{
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 200;
     letter-spacing: 0.04em;
 }
@@ -82,5 +88,16 @@ html, body {
     background: #4F4F4F;
     color: #fff;
 }
+.chat-box input::placeholder{
+    font-family: 'Poppins', sans-serif;
+}
 
-
+.send-button{
+    width: 25px;;
+    height: 36px;
+    background: #4F4F4F;
+    position: absolute;
+    top:0;
+    right: 0;
+}
+  
