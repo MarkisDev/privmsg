@@ -6,6 +6,7 @@ import pymongo
 import string
 import random
 import datetime
+import random
 
 db_client = pymongo.MongoClient(
     'mongodb+srv://markis:cmritproject123@cluster0.313vp.mongodb.net/priv?authSource=admin&replicaSet=atlas-fkelf3-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true')
@@ -43,6 +44,10 @@ def index(request):
 
 # Function to render room page, rest of it is handled by websocket connection!
 def room(request, room_name):
+    # Colors list for the user
+    colors = ['#2626be', '#ad011d', '#900174', '#09578a', '#098a4c', '#49456f', '#314645', '#087e78', '#653a24', '#556106']
+    random.shuffle(colors)
+    color = random.choice(colors)
     # Handling GET request:
     if request.method == 'GET':
         # Granting page access if user created the room and was redirected
@@ -51,7 +56,7 @@ def room(request, room_name):
             username = request.session['username']
             del request.session['room_name'] 
             del request.session['username'] 
-            return render(request, 'chat/room.html', {'room_name': room_name, 'username':username})
+            return render(request, 'chat/room.html', {'room_name': room_name, 'username':username, 'color':color})
         else:
             return render(request, 'chat/index.html', {'error': False})
     # User submitted form to login, authenticating him
@@ -67,7 +72,7 @@ def room(request, room_name):
             # Checking if password is same
             room_pass = hashlib.sha256(request.POST.get('password').encode()).hexdigest()
             if room_pass == room['password']:
-                return render(request, 'chat/room.html', {'room_name': room_name, 'username': request.POST.get('username')})
+                return render(request, 'chat/room.html', {'room_name': room_name, 'username': request.POST.get('username'), 'color':color})
             else:
                 return HttpResponse('Room password wrong!')
             

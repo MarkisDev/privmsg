@@ -3,6 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 import pymongo
 import datetime
+import random
 
 # Initializing database client
 db_client = pymongo.MongoClient(
@@ -37,6 +38,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         else:
             # Decrementing connected clients
             col.update({'room_name':self.room_name}, {'$inc': {'connected_clients': -1}})
+        # Send message before disconnect
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'leave.message',
+                'username': self.username,
+            }
+        )
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -45,62 +54,56 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        # Making HTML structure to be manipulated by JS
-        msg_structure = """<div class="pe-2 row my-3 ">
-                            <div class="d-flex">
-                                <!-- username in box -->
-                                <div class="me-3 text-center">
-                                    <p class="user-box-PrivMsg m-0 d-flex justify-content-center align-items-center">
-                                        Priv<br>Msg
-                                    </p>
-                                </div>
-                                <!-- username and time -->
-                                <div class="col h-20">
-                                    <div class="row user-info">
-                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
-                                        <p class="col-1 m-0 pt-1 px-1 user-time">12:05am</p>
-                                    </div>
-                                    <!-- text message -->
-                                    <div class="row">
-                                        <p class="user-texts ps-3 m-0"><i>Let's welcome <strong>Rijuth Menon</strong> to
-                                                the
-                                                room.</i></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>"""
         text_data_json = json.loads(text_data)
         text_data_json['time'] = datetime.datetime.utcnow()
         # Appending message with username to db
         col.update({'room_name': self.room_name}, {'$push': {'messages' : text_data_json}})
-        message = text_data_json['message']
-        # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message,
-                'username': text_data_json['username'],
-                'structure': msg_structure
-            }
-        )
+        # Send message to room group depending on type
+        if (text_data_json['type'] == 'join.message'):
+            # Sending join message
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'join.message',
+                    'username': text_data_json['username'],            
+                }
+            )
+        elif (text_data_json['type'] == 'leave.message'):
+            # Sending leave message
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'leave.message',
+                    'username': text_data_json['username'],            
+                }
+            )
+        elif (text_data_json['type'] == 'chat.message'):
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat.message',
+                    'message':text_data_json['message'],
+                    'username': text_data_json['username'],
+                    'color': text_data_json['color'],            
+                }
+            )
 
     # Receive message from room group
     async def chat_message(self, event):
         message = event['message']
-        msg_structure = """<div class="pe-2 row my-3 ">
+        msg_structure = f"""<div class="pe-2 row my-3 ">
                             <div class="d-flex">
                                 <!-- username in box -->
                                 <div class="me-3 text-center">
-                                    <p id="user-name" class="user-box-PrivMsg m-0 d-flex justify-content-center align-items-center">
+                                    <p id="user-name" style="background-color:{event['color']};" class="user-box m-0 d-flex justify-content-center align-items-center">
                                         
                                     </p>
                                 </div>
                                 <!-- username and time -->
                                 <div class="col h-20">
                                     <div class="row user-info">
-                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
-                                        <p class="col-1 m-0 pt-1 px-1 user-time">12:05am</p>
+                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name"></p>
+                                        <p class="col m-0 pt-1 px-1 user-time">1</p>
                                     </div>
                                     <!-- text message -->
                                     <div class="row">
@@ -113,5 +116,72 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message,
             'username': event['username'],
-            'structure': msg_structure
+            'structure': msg_structure,
+            'system': False,
+        }))
+
+    # Receive message from room group
+    async def join_message(self, event):
+        # Setting username in instance
+        room = col.find_one({'room_name':self.room_name}, {'_id':0, 'created_at':0, 'messages':0})
+        self.username = event['username']
+        msg_structure = """<div class="pe-2 row my-3 ">
+                            <div class="d-flex">
+                                <!-- username in box -->
+                                <div class="me-3 text-center">
+                                    <p id="user-name" class="user-box-PrivMsg m-0 d-flex justify-content-center align-items-center">
+                                        Priv<br>Msg
+                                    </p>
+                                </div>
+                                <!-- username and time -->
+                                <div class="col h-20">
+                                    <div class="row user-info">
+                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
+                                        <p class="col m-0 pt-1 px-1 user-time"></p>
+                                    </div>
+                                    <!-- text message -->
+                                    <div class="row">
+                                        <p id="user-text" class="user-texts ps-3 m-0"><i>Let's welcome <strong></strong> to the room!<i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>"""
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'structure': msg_structure,
+            'username': event['username'],
+            'system': True,
+            "clients": room['connected_clients'],
+        }))
+
+    # Receive message from room group
+    async def leave_message(self, event):
+        room = col.find_one({'room_name':self.room_name}, {'_id':0, 'created_at':0, 'messages':0})
+        msg_structure = """<div class="pe-2 row my-3 ">
+                            <div class="d-flex">
+                                <!-- username in box -->
+                                <div class="me-3 text-center">
+                                    <p id="user-name" class="user-box-PrivMsg m-0 d-flex justify-content-center align-items-center">
+                                        Priv<br>Msg
+                                    </p>
+                                </div>
+                                <!-- username and time -->
+                                <div class="col h-20">
+                                    <div class="row user-info">
+                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
+                                        <p class="col m-0 pt-1 px-1 user-time"></p>
+                                    </div>
+                                    <!-- text message -->
+                                    <div class="row">
+                                        <p id="user-text" class="user-texts ps-3 m-0"><i>Bye we'll miss you <strong></strong>!<i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>"""
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'structure': msg_structure,
+            'username': self.username,
+            'system': True,
+            "clients": room['connected_clients'],
         }))

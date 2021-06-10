@@ -46,11 +46,11 @@ html, body {
     background: #1d1d1d; 
     height: 100%;
     border-radius: 10px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 .chat-area {
-    overflow: scroll;
+    overflow: auto;
     height: 75vh;
     overflow-x: hidden;
 }
