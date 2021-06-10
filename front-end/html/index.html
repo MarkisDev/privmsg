@@ -17,30 +17,28 @@
     </header>
 
 
-    <div class="content">
+    <div class="info-create-room">
         <div class="container-fluid text-center">
             <div class="row">
-                <div class="col-6">
+                <div class="col mb-5">
                     <h2 class="heading heading1">Destructing Message</h2>
                     <p class="note note1">Destructing notes will allow you make a one-time message, whose link you can share with others!
                         The message is encrypted and stored on our server and is deleted when it is viewed by the user!</p>
                     <button type="button" class="btn-lg message-btn" href="#" onclick="togglePopup()">Destructing Message</button>
                 </div>
 
-
-                <div class="col-6">
+                <div class="col">
                     <h2 class="heading heading2">E2E Chat Room</h2>
                     <p class="note note2">E2E chat room will allow you to make an encrypted, temporary chat room whose link you can share with others in real-time!
                         We encrypt all your messages before we send it to the server to store it temporarily.All data is deleted once the chat
                         room is closed!</p>
                     <button type="button" class="btn-lg message-btn" href="#" onclick="togglePopup()">E2E Chat Room</button>
 
-
                     <!-- popup -->
                     <div class="popup" id="popup-1">
                         <div class="overlay"></div>
                         <div class="content">
-                            <div class="close-btn" onclick="togglePopup()"><i class="far fa-arrow-alt-circle-left"></i></div>
+                            <div class="close-btn" onclick="togglePopup()"><i class="fas fa-arrow-left"></i></div>
                             <form class="form-container">
                                 <h1 class="my-3">Create Room</h1>                                    
                                 <input type="text" class="form" aria-label="UserName" placeholder="Username">
@@ -49,9 +47,6 @@
                             </form>
                         </div>
                     </div>
-
-
-
 
                 </div>
             </div>

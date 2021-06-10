@@ -25,9 +25,9 @@ header a:hover{
     color: rgb(133, 133, 133);
 }
 
-.content{
+.info-create-room{
     position: absolute;
-    top: 162px;
+    top: 25%;
     width: 100%;
 }
 
@@ -83,6 +83,7 @@ button:hover{
   
 .popup .content{
     position:absolute;
+    font-family: 'Poppins', sans-serif;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%) scale(0);
