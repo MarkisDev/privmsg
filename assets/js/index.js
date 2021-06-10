@@ -9,10 +9,10 @@ function encryptText(text, password)
 // Function to decrypt text
 function decryptText(ciphertext, password)
 {
-    password = "hi";
-    const bytes = CryptoJS.AES.decrypt(ciphertext, password);
-    const originalText = bytes.toString(CryptoJS.enc.Utf8);
-    return originalText;
+	password = "hi";
+	const bytes = CryptoJS.AES.decrypt(ciphertext, password);
+	const originalText = bytes.toString(CryptoJS.enc.Utf8);
+	return originalText;
 }
 
 // Called when room.html body loads
@@ -34,7 +34,19 @@ function initWS()
 		const password = getCookie('password');
 		const data = JSON.parse(e.data);
 		console.log(data.username);
-		document.querySelector('#chat-log').value += (decryptText(data.username, password)) + ":" + (decryptText(data.message, password) + '\n');
+		// Wrapping structure in div to get html content
+		var wrapper = document.createElement('div');
+		wrapper.innerHTML = data.structure;
+		var div = wrapper.firstChild;
+		console.log(div);
+		// Adding decrypted data
+		div.getElementById('user-text').innerHTML = 'Hu';
+		// Adding to chat area
+		var rr = document.getElementById('chat-area');
+		document.getElementById('chat-area').appendChild(div);
+		rr.scrollTop = rr.scrollHeight;
+		// document.querySelector('#chat-log').value += (decryptText(data.username, password)) + ":" + (decryptText(data.message, password) + '\n');
+		console.log((decryptText(data.username, password)) + ":" + (decryptText(data.message, password) + '\n'));
 	};
 	// If WebSocket closes
 	chatSocket.onclose = function (e)
@@ -46,7 +58,7 @@ function initWS()
 	document.querySelector('#chat-message-input').onkeyup = function (e)
 	{
 		// If message not empty and enter, return is pressed
-		if (this.value.trim() != '' && e.keyCode === 13)
+		if (this.value.trim() != '' && e.keyCode === 13 && this.value != "\n")
 		{  // enter, return
 			document.querySelector('#chat-message-submit').click();
 		}
@@ -78,7 +90,7 @@ function initWS()
 		const messageInputDom = document.querySelector('#chat-message-input');
 		const message = messageInputDom.value;
 		// If message not empty
-		if(message.trim() != '')
+		if (message.trim() != '')
 		{
 			chatSocket.send(JSON.stringify({
 				'message': encryptText(message, password),
@@ -89,8 +101,19 @@ function initWS()
 	};
 }
 
+// Function to set cookies
 function setCookie()
 {
 	const password = document.querySelector('#password').value;
 	document.cookie = "password=" + password;
 }
+
+// Function to make dynamic text area
+function autoResize()
+{
+	this.style.height = 'auto';
+	this.style.height = this.scrollHeight + 'px';
+}
+textarea = document.getElementById('chat-message-input');
+textarea.addEventListener('input', autoResize, false);
+

@@ -123,10 +123,13 @@ html, body {
 
 .send-button{
     background-color: #4F4F4F;
-    background-image: url(../send.svg);
+    background-image: url('../send.svg');
     background-size: 100% 100%;
     border: 0;
-    padding: 8px 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-left: 10px;
+
 }
   
 /* @media only screen and (max-width: 600px) { 
