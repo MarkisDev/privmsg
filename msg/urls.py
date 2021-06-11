@@ -3,6 +3,6 @@ from . import views
 
 app_name = 'msg'
 urlpatterns = [
-    path('', views.index, name='home'),
-    path('<str:msg_name>/', views.msg, name='msg'),
+    path('', views.create_msg, name='home'),
+    path('<str:msg_name>/', views.read, name='msg'),
 ]
