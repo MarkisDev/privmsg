@@ -5,4 +5,5 @@ from django.contrib import admin
 urlpatterns = [
     path('room/', include('chat.urls')),
     path('admin/', admin.site.urls),
+    path('msg/', include('msg.urls'))
 ]
