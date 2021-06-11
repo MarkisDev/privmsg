@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Burn notes</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"
+    integrity="sha512-nOQuvD9nKirvxDdvQ9OMqe2dgapbPB7vYAMrzJihw5m+aNcf0dX53m6YxM4LgA9u8e9eg9QX+/+mPu8kCNpV2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {% load static %}
+</head>
+
+<body>
+  <form method="post">
+    {% csrf_token %}
+	<div>
+		{% if not success %}
+			Create a note that burns after viewing it<br />
+			<input name="msg" type="text">
+			<br><br>
+			<input type="submit" value="submit">
+		{% elif msg %}
+			<input type="text" value="{{ msg }}" readonly>
+		{% else %}
+			Here is your link, sir
+			<input type="text" value="{{ link }}">
+		{% endif %}
+	</div>
+  </form>
+</body>
+
+</html>
+
