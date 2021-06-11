@@ -78,29 +78,39 @@ def gen_link(length=random.randint(7, 10)):
         return link
 
 # Function to create burn messages
-def create_msg(request, msg):
+def create_msg(request):
+	if request.method == 'GET':
+		return render(request, 'msg/index.html', {'error': False})
 	# Generate link for message
 	link = gen_link()
 	# Generate password for message
 	msg_pass = gen_link()
-	enc_msg = encrypt(msg, msg_pass)
-	data = {}
-	for key in enc_msg:
-		data[key] = enc_msg[key]
-	data['link'] = link 
-	data['created_time'] = datetime.datetime.utcnow()
-	# Insert data to mongo
-	col.insert(data)
-	# Append password to link string
-	link +=';'+msg_pass
-	return redirect(reverse('msg:read', kwargs={"link": link}))
+	# If request method is POST and POST['msg'] isn't empty
+	if request.method == 'POST' and request.POST.get('msg') is not None:
+		# return render(request, 'chat/index.html', {'error': True})
+		msg = request.POST.get('msg')
+		enc_msg = encrypt(msg, msg_pass)
+		data = {}
+		for key in enc_msg:
+			data[key] = enc_msg[key]
+		data['link'] = link 
+		data['created_time'] = datetime.datetime.utcnow()
+		# Insert data to mongo
+		col.insert(data)
+		# Append password to link string
+		link +=';'+msg_pass
+		url = request.get_host() + '/msg/'
+		return render(request, 'msg/index.html', {'success': True, 'link': url+link})
+	else:
+		return render(request, 'msg/index.html', {'error': True})
+
 
 
 # Function to read a given message
-def read(request, link):
-	if len(link.split(';')) <= 1:
-		link = link.split(';')[0]
-		passwd = link.split(';')[1]
+def read(request, msg_name):
+	if len(msg_name.split(';')) == 2:
+		link = msg_name.split(';')[0]
+		passwd = msg_name.split(';')[1]
 	else:
 		return HttpResponse('error')
 	# Query to check if link exists
@@ -112,8 +122,9 @@ def read(request, link):
 	else:
 		# Try to decrypt file with the given password in URL
 		try:
-			msg = decrypt(link, passwd)
-			return render(request, 'msg/index.html', {'msg': msg})
+			msg = decrypt(link, passwd).decode('utf-8')
+			col.delete_one(link)
+			return render(request, 'msg/index.html', {'msg': msg, 'success': True})
 		except:
 			return HttpResponse('error')
 			
