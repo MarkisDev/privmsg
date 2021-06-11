@@ -2,3 +2,5 @@ env/
 chat/__pycache__
 core/__pycache__
 chat/migrations
+msg/__pycache__
+msg/migrations
