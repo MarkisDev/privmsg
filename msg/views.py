@@ -99,8 +99,9 @@ def create_msg(request):
 		col.insert(data)
 		# Append password to link string
 		link +=';'+msg_pass
-		url = request.get_host() + '/msg/'
-		return render(request, 'msg/index.html', {'success': True, 'link': url+link})
+		url = reverse('msg:read',kwargs={"msg_name":link})
+		# return render(request, 'msg/index.html', {'success': True, 'link': url})
+		return redirect(url)
 	else:
 		return render(request, 'msg/index.html', {'error': True})
 
@@ -111,20 +112,21 @@ def read(request, msg_name):
 	if len(msg_name.split(';')) == 2:
 		link = msg_name.split(';')[0]
 		passwd = msg_name.split(';')[1]
+		# Query to check if link exists
+		link = col.find_one({'link': link}, {'_id':0, 'created_at':0})
+		# If link does not exist
+		if link is None:
+			return HttpResponse('Msg does not exist!')
+		# If link exists
 	else:
 		return HttpResponse('error')
-	# Query to check if link exists
-	link = col.find_one({'link': link}, {'_id':0, 'created_at':0})
-	# If link does not exist
-	if link is None:
-		return HttpResponse('Msg does not exist!')
-	# If link exists
-	else:
+	if request.method == 'POST':
 		# Try to decrypt file with the given password in URL
 		try:
 			msg = decrypt(link, passwd).decode('utf-8')
 			col.delete_one(link)
-			return render(request, 'msg/index.html', {'msg': msg, 'success': True})
+			return render(request, 'msg/read.html', {'msg': msg, 'success': True})
 		except:
 			return HttpResponse('error')
-			
+	elif request.method == 'GET':
+		return render(request, 'msg/read.html')
