@@ -18,6 +18,8 @@ col = db["rooms"]
 def index(request):
     # Handling form request
     if request.method == 'POST':
+        if request.POST.get('room_name') is not None and request.POST.get('room_name').strip() == '':
+            return render(request, 'chat/index.html', {'error': True})
         # Password was not set
         if not request.POST.get('password'):
             return render(request, 'chat/index.html', {'error': True})
@@ -58,9 +60,11 @@ def room(request, room_name):
             del request.session['username'] 
             return render(request, 'chat/room.html', {'room_name': room_name, 'username':username, 'color':color})
         else:
-            return render(request, 'chat/index.html', {'error': False})
+            return render(request, 'chat/index.html', {'error': False, 'join': True})
     # User submitted form to login, authenticating him
     elif request.method == 'POST':
+        if request.POST.get('username').strip() == '':
+            return HttpResponse('Username cannot be empty!')
         # Checking if it's not a spam post request 
         if not request.POST.get('password'):
             return HttpResponse('No password error!')
