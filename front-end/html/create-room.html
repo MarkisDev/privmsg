@@ -13,21 +13,21 @@
 <body>
     
     <div class="container-fluid p-0">
-        <div class="container w-100 vh-100 d-flex justify-content-center align-items-center p-0">        
+        <div class="container w-100 vh-100 d-flex justify-content-center p-0">        
             <div class="row d-flex justify-content-center w-100">
 
                 <!-- heading -->
-                <div class="row brand d-flex p-0 m-0">
-                    <div class="col d-flex justify-content-center text-center p-0 mt-3 w-auto">
-                        <a href="#">PrivMsg</a>
+                <div class="row brand d-flex p-0 m-0 w-auto">
+                    <div class="col d-flex flex-column text-center p-0 mt-3">
+                        <a href="#" >PrivMsg</a>
                     </div>
                 </div>
 
 
                 <!-- form -->
                 <div class="row d-flex align-items-center justify-content-center form-elements">
-                    <div class="col d-flex flex-column align-items-center form h-100 p-0">                
-                        <div class="content px-5 m-auto">
+                    <div class="col d-flex flex-column justify-content-center align-items-center form h-100 p-0">                
+                        <div class="content">
                             <div class="row d-flex justify-content-center">
                                 <form class="col">
                                     <div class="row text-center">
@@ -50,9 +50,20 @@
 
 
                 <!-- foot-elements -->
-                <div class="add row p-0 mt-3">
-                    <div class="col d-flex justify-content-center align-items-end p-0">
-                        <a href="#" onclick="togglePopup()">Looking to join a room?</a>
+                <div class="add row d-flex align-items-start">
+                    <div class="row m-0 p-0">
+                        <div class="col d-flex justify-content-center">
+                            <a href="#" onclick="togglePopup()">Looking to join a room?</a>
+                        </div>
+                    </div>
+                    <div class="row m-0 p-0">
+                        <div class="col d-flex justify-content-center foot-decoration">
+                            <a href="#">API</a>
+                            <span class="ruler px-2">|</span>
+                            <a href="#">About</a>
+                            <span class="ruler px-2">|</span>
+                            <a href="#">TOS</a>
+                        </div>
                     </div>
                 </div>
 
@@ -63,11 +74,12 @@
                         <div class="close-btn" onclick="togglePopup()"><i class=" fas fa-arrow-left"></i></div>
                         <form class="form-container">
                             <h1 class="my-3">Join Room</h1>                                    
-                            <input type="text" class="row input-box justify-content-center m-auto my-3" aria-label="UserName" placeholder="Username">
+                            <input type="text" class="row input-box justify-content-center m-auto my-3" aria-label="UserName" placeholder="Enter URL">
                             <button type="submit" class="row btn btn-primary create-room justify-content-center btn" >Join Room</button>
                         </form>
                     </div>
                 </div>
+<<<<<<< Updated upstream
 
 
                 <div class="d-flex row justify-content-center foot-elements p-0 m-0">
@@ -81,6 +93,8 @@
                 </div>   
 
 
+=======
+>>>>>>> Stashed changes
             </div>         
         </div>
     </div>

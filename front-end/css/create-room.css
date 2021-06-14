@@ -12,10 +12,6 @@ body{
  
 .brand{
     font-size: 36px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right:0;
     z-index:2;
 }
 .brand a{
@@ -29,9 +25,12 @@ body{
 .content{
     background-color: white;
     color: black;
-    width: auto;
+    width: 100%;
     padding: 30px;
     border-radius: 20px;
+}
+.form-container{
+    width: 100%;
 }
 .input-box{
     background-color: #1d1d1d;
@@ -39,6 +38,7 @@ body{
     border: none;
     padding: 10px;
     color: white;
+    width: 100%;
 }
 .input-box:focus{
     outline: none;
@@ -56,12 +56,12 @@ body{
     outline: none;
     box-shadow: none;
 }
-.foot-elements{
+/* .foot-elements{
     position: absolute;
     bottom: 0;
     left:0;
     right: 0;
-}
+} */
 .foot-decoration a{
     text-decoration: none;
     color:white;
@@ -81,6 +81,7 @@ body{
 
 
 /* popup */
+
 .popup .overlay {
     position:fixed;
     top:0px;
@@ -99,7 +100,7 @@ body{
     left:50%;
     transform:translate(-50%,-50%) scale(0);
     background:var(--accent-color);
-    width:auto;
+    width:90%;
     height:auto;
     z-index:2;
     text-align:center;
@@ -134,3 +135,36 @@ body{
     transition:all 300ms ease-in-out;
     transform:translate(-50%,-50%) scale(1);
 }
+
+
+@media screen and (min-width: 768px) {
+    .content{
+        background-color: white;
+        color: black;
+        width: 20em;
+        padding: 25px;
+        border-radius: 20px;
+    }
+    .popup .content{
+        position:absolute;
+        font-family: 'Poppins', sans-serif;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%) scale(0);
+        background:var(--accent-color);
+        width:20em;
+        height:auto;
+        z-index:2;
+        text-align:center;
+        padding:20px;
+        box-sizing:border-box;
+        font-family:"Open Sans",sans-serif;
+        border-radius: 20px;
+        color: var(--back-color);
+        background-color: white;
+        color: black;
+    }
+    .form-container{
+        width: 100%;
+    }
+  } 
