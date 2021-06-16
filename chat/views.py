@@ -1,6 +1,9 @@
+import re
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django import urls
+from django.contrib import messages
 import hashlib
 import pymongo
 import string
@@ -19,12 +22,17 @@ def index(request):
     # Handling form request
     if request.method == 'POST':
         if request.POST.get('room_name') is not None and request.POST.get('room_name').strip() == '':
+            messages.error(request, 'No room error!')
             return render(request, 'chat/index.html', {'error': True})
+        elif request.POST.get('room_name'):
+            return redirect(reverse('chat:room', kwargs={"room_name": request.POST.get('room_name')}))
         # Password was not set
         if not request.POST.get('password'):
+            messages.error(request, 'No password error!')
             return render(request, 'chat/index.html', {'error': True})
         # Username was not set
         elif not request.POST.get('username'):
+            messages.error(request, 'No username error!')
             return render(request, 'chat/index.html', {'error': True})
         # Everything set, adding to db then sending to a burner room!
         else:
@@ -60,25 +68,34 @@ def room(request, room_name):
             del request.session['username'] 
             return render(request, 'chat/room.html', {'room_name': room_name, 'username':username, 'color':color})
         else:
+            room = col.find_one({'room_name':room_name}, {'_id':0, 'created_at':0, 'messages':0})
+            if room is None:
+                # return redirect(reverse('chat:home'))
+                messages.error(request, 'Room does not exist')
+                return redirect(reverse('chat:home'))
             return render(request, 'chat/index.html', {'error': False, 'join': True})
     # User submitted form to login, authenticating him
     elif request.method == 'POST':
         if request.POST.get('username').strip() == '':
-            return HttpResponse('Username cannot be empty!')
+            messages.error(request, 'No username error!')
+            return render(request, 'chat/index.html', {'error': False, 'join': True})
         # Checking if it's not a spam post request 
         if not request.POST.get('password'):
-            return HttpResponse('No password error!')
+            messages.error(request, 'No password error!')
+            return render(request, 'chat/index.html', {'error': False, 'join': True})
         # Checking room exists in db
         room = col.find_one({'room_name':room_name}, {'_id':0, 'created_at':0, 'messages':0})
         if room is None:
-            return HttpResponse('Room does not exist!')
+            messages.error(request, 'Room does not exist')
+            return redirect(reverse('chat:home'))
         else:
             # Checking if password is same
             room_pass = hashlib.sha256(request.POST.get('password').encode()).hexdigest()
             if room_pass == room['password']:
                 return render(request, 'chat/room.html', {'room_name': room_name, 'username': request.POST.get('username'), 'color':color})
             else:
-                return HttpResponse('Room password wrong!')
+                messages.error(request, 'Room password wrong!')
+                return render(request, 'chat/index.html', {'error': False, 'join': True})
             
 
 # Function to generate a random room name
