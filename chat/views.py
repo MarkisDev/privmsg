@@ -10,9 +10,13 @@ import string
 import random
 import datetime
 import random
+import json
 
-db_client = pymongo.MongoClient(
-    'mongodb+srv://markis:cmritproject123@cluster0.313vp.mongodb.net/priv?authSource=admin&replicaSet=atlas-fkelf3-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true')
+with open('chat/config.json') as f:
+    contents = json.load(f)
+    db_url = contents['DATABASE_URL'] 
+
+db_client = pymongo.MongoClient(db_url)
 # Selecting database
 db = db_client['privmsg']
 col = db["rooms"]
