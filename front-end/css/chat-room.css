@@ -35,13 +35,6 @@ html, body {
     margin: 0px; 
     height: 100%; 
 } 
-/* .box { background: red; height: 100%; } */
-/* .box { 
-    background: red; 
-    height: 90vh; 
-    width: 95%;
-    margin: auto;
-} */
 .box { 
     background: #1d1d1d; 
     height: 100%;
