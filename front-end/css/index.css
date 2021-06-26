@@ -1,0 +1,13 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    background: #1d1d1d !important;
+    color: white !important;
+}
+
+.position{
+    height: 90vh;
+}
