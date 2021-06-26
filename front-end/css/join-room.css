@@ -17,11 +17,18 @@ body{
     left: 0;
     right:0;
 }
+.brand a{
+    text-decoration: none;
+    color:white;
+}
+.brand a:hover{
+    color:rgb(196, 195, 195);
+}
 
 .content{
     background-color: white;
     color: black;
-    width: auto;
+    width: 100%;
     padding: 30px;
     border-radius: 20px;
 }
@@ -50,8 +57,27 @@ body{
 }
 .foot-elements{
     position: absolute;
-    bottom: 0;
+    bottom:40px;
     left:0;
     right: 0;
 }
+.foot-elements a{
+    text-decoration:none;
+    color:white;
+}
+.foot-elements a:hover{
+    color:rgb(196, 195, 195);
+}
 
+@media screen and (min-width: 768px) {
+    .content{
+        background-color: white;
+        color: black;
+        width: 20em;
+        padding: 25px;
+        border-radius: 20px;
+    }
+    .form-container{
+        width: 100%;
+    }
+  } 
