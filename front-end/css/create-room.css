@@ -56,12 +56,6 @@ body{
     outline: none;
     box-shadow: none;
 }
-/* .foot-elements{
-    position: absolute;
-    bottom: 0;
-    left:0;
-    right: 0;
-} */
 .foot-decoration a{
     text-decoration: none;
     color:white;
