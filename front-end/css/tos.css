@@ -1,0 +1,40 @@
+*{
+    padding: 0;
+    margin:0;
+}
+body{
+    background-color: #1d1d1d !important;
+    color: white !important;
+    font-family: 'poppins',sans-serif !important;
+}
+.head{
+    width: fit-content;
+}
+h1 a{
+    text-decoration: none;
+    color:white;
+}
+.box{
+    background-color: gray;
+    border-radius: 15px;
+    padding: 20px !important;
+}
+
+.position{
+    margin: 5px !important;
+    min-width: auto;
+    max-width: 500px;
+}
+
+.content{
+    min-height: 70%;
+    max-height: auto;
+}
+.foot a{
+    text-decoration: none;
+    color: white;
+}
+
+h1 a:hover , .foot a:hover{
+    color: rgb(167, 166, 166);
+}
