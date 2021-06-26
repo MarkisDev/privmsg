@@ -1,3 +1,4 @@
+from os import error
 import re
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
@@ -11,15 +12,17 @@ import random
 import datetime
 import random
 import json
+import sqlite3
 
 with open('chat/config.json') as f:
     contents = json.load(f)
-    db_url = contents['DATABASE_URL'] 
-
-db_client = pymongo.MongoClient(db_url)
-# Selecting database
-db = db_client['privmsg']
-col = db["rooms"]
+    if contents["DATABASE"]:
+        # If database_url configured in config.json
+        db_url = contents['DATABASE_URL'] 
+        db_client = pymongo.MongoClient(db_url)
+        # Selecting database
+        db = db_client['privmsg']
+        col = db["rooms"]
 
 # Function to handle the form to create room
 def index(request):
