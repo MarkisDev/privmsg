@@ -1,9 +1,8 @@
 from django.conf.urls import include
 from django.urls import path
-from django.contrib import admin
-
+from . import views
 urlpatterns = [
+    path('', views.index, name='home'),
     path('room/', include('chat.urls')),
-    path('admin/', admin.site.urls),
     path('msg/', include('msg.urls'))
 ]

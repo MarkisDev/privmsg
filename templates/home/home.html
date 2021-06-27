@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivMsg</title>
+    <link rel="stylesheet" href="{% static 'css/landing-page.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <div class="row align-items-center justify-content-center">
+            <div class="col">
+                <!-- head elements -->
+                <div class="row justify-content-center align-items-center">
+                    <h1 class="text-center"><a href="{% url 'home'%}">PrivMsg</a></h1>
+                    <p class="text-center sub"><i>Respecting your privacy!</i></p>
+                </div>
+                <!-- box content with buttons -->
+                <div class="col content d-flex justify-content-center">
+                    <div class="row justify-content-center position align-items-center">
+                        <div class="box my-4 container">
+                            <div class="room-master d-flex justify-content-center">
+                                <a class="room-btn text-center" href="{% url 'msg:home'%}">Destructive Messsage</a>
+                                <div type="button" class="info-master" data-bs-toggle="tooltip"
+                                    data-bs-placement="right"
+                                    title="Destructing notes will allow you make a one-time message, whose link you can share with others!
+                                The message is encrypted and stored on our server and is deleted when it is viewed by the user!">
+                                    <i class="info fas fa-info-circle ms-1"></i>
+                                </div>
+                            </div>
+                            <div class="room-master d-flex justify-content-center">
+                                <a class="room-btn text-center" href="{% url 'chat:home'%}">E2E Chat Room</a>
+                                <div type="button" class="info-master" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" title="E2E chat room will allow you to make an encrypted, temporary chat room whose link you can share with others in real-time!
+                                We encrypt all your messages before we send it to the server to store it temporarily.All data is deleted once the chat
+                                room is closed!">
+                                    <i class="info fas fa-info-circle ms-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- foot elements -->
+                <div class="row end m-auto">
+                    <p class="text-center"><i>By using our service you agree to our <a class="link" href="#">terms of
+                                service.</a></i></p>
+                </div>
+                <div class="row d-block text-center foot mb-4">
+                    <a href="#">About</a>
+                    <span class="ruler px-2">|</span>
+                    <a href="#">TOS</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="../popper.js"></script>
+    <script src="../poppermin.js"></script>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl)
+        {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+</body>
+
+</html>
