@@ -1,0 +1,52 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/common.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    {%block head_tags%}
+    {%endblock%}
+    <title>{{title}}</title>
+</head>
+
+<body>
+
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <div class="row align-items-center justify-content-center">
+            <div class="col">
+                <!-- head elements -->
+                <div class="row justify-content-center align-items-center">
+                    <h1 class="text-center"><a href="{%url 'home' %}">PrivMsg</a></h1>
+                    <p class="text-center sub"><i>Respecting your privacy!</i></p>
+                </div>
+                {%block content%}
+                {%endblock%}
+
+                <!-- foot elements -->
+                <div class="row d-block text-center foot mb-4">
+                    <a href="#">About</a>
+                    <span class="ruler px-2">|</span>
+                    <a href="#">TOS</a>
+                </div>
+                <div class="row end m-auto">
+                    <p class="text-center"><i>By using our service you agree to our <a class="link" href="#">terms of
+                                service.</a></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

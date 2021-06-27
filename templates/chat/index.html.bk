@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/create-room.css' %}">
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Create Room</title>
+</head>
+
+<body>
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success'%}
+    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+    {% elif message.tags == 'info' %}
+    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+    {% elif message.tags == 'warning' %}
+    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+    {% elif message.tags == 'error' %}
+    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    <div class="container-fluid p-0">
+        <div class="container w-100 vh-100 d-flex justify-content-center align-items-center p-0">
+            <div class="row d-flex justify-content-center w-100">
+
+                <!-- heading -->
+                <div class="row brand d-flex p-0 m-0">
+                    <div class="col d-flex justify-content-center text-center p-0 mt-3 w-auto">
+                        <a href="#">PrivMsg</a>
+                    </div>
+                </div>
+
+
+                <!-- form -->
+                <div class="row d-flex align-items-center justify-content-center form-elements">
+                    <div class="col d-flex flex-column align-items-center form h-100 p-0">
+                        <div class="content px-5 m-auto">
+                            <div class="row d-flex justify-content-center">
+                                {% if not join %}
+                                <form method="post" class="col">
+                                    {% csrf_token %}
+                                    <div class="row text-center">
+                                        <h1>Create Room</h1>
+                                    </div>
+                                    <div class="row my-3">
+                                        <input type="text" name="username" class="input-box row form w-auto m-auto"
+                                            aria-label="UserName" placeholder="Username">
+                                    </div>
+                                    <div class="row my-3">
+                                        <input type="password" id="password" name="password"
+                                            class="input-box row form w-auto m-auto" aria-label="PassWord"
+                                            placeholder="Password">
+                                    </div>
+                                    <div class="row my-3">
+                                        <button type="submit" class="row join-button w-auto m-auto"
+                                            onclick="setCookie()" value="Enter">Create Room</button>
+                                    </div>
+                                </form>
+                                {% else %}
+                                <form method="post" class="col">
+                                    {% csrf_token %}
+                                    <div class="row text-center">
+                                        <h1>Join Room</h1>
+                                    </div>
+                                    <div class="row my-3">
+                                        <input type="text" name="username" class="input-box row form w-auto m-auto"
+                                            aria-label="UserName" placeholder="Username">
+                                    </div>
+                                    <div class="row my-3">
+                                        <input type="password" id="password" name="password"
+                                            class="input-box row form w-auto m-auto" aria-label="PassWord"
+                                            placeholder="Password">
+                                    </div>
+                                    <div class="row my-3">
+                                        <button type="submit" class="row join-button w-auto m-auto"
+                                            onclick="setCookie()" value="Enter">Join Room</button>
+                                    </div>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not join %}
+                <!-- foot-elements -->
+                <div class="add row p-0 mt-3">
+                    <div class="col d-flex justify-content-center align-items-end p-0">
+                        <a href="#" onclick="togglePopup()">Looking to join a room?</a>
+                    </div>
+                </div>
+
+                <!-- pop-up -->
+                <div class="popup" id="popup-1">
+                    <div class="overlay"></div>
+                    <div class="col content d-flex">
+                        <div class="close-btn" onclick="togglePopup()"><i class=" fas fa-arrow-left"></i></div>
+                        <form method="post" class="form-container">
+                            {% csrf_token %}
+                            <h1 class="my-3">Join Room</h1>
+                            <input type="text" name="room_name" class="row input-box justify-content-center m-auto my-3"
+                                aria-label="RoomName" placeholder="Room ID">
+                            <button type="submit"
+                                class="row btn btn-primary create-room justify-content-center btn">Join Room</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="d-flex row justify-content-center foot-elements p-0 m-0">
+                    <div class="col d-flex justify-content-center foot-decoration">
+                        <a href="#">About</a>
+                        <span class="ruler px-2">|</span>
+                        <a href="#">ToS</a>
+                        <span class="ruler px-2">|</span>
+                        <a href="#">About</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

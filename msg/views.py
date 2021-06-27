@@ -86,7 +86,7 @@ def create_msg(request):
 	# Generate password for message
 	msg_pass = gen_link()
 	# If request method is POST and POST['msg'] isn't empty
-	if request.method == 'POST' and request.POST.get('msg') is not None:
+	if request.method == 'POST' and request.POST.get('msg').strip() !='':
 		# return render(request, 'chat/index.html', {'error': True})
 		msg = request.POST.get('msg')
 		enc_msg = encrypt(msg, msg_pass)
@@ -100,7 +100,6 @@ def create_msg(request):
 		# Append password to link string
 		link +=';'+msg_pass
 		url = reverse('msg:read',kwargs={"msg_name":link})
-		# return render(request, 'msg/index.html', {'success': True, 'link': url})
 		return redirect(url)
 	else:
 		return render(request, 'msg/index.html', {'error': True})
@@ -116,17 +115,17 @@ def read(request, msg_name):
 		link = col.find_one({'link': link}, {'_id':0, 'created_at':0})
 		# If link does not exist
 		if link is None:
-			return HttpResponse('Msg does not exist!')
+			return redirect(reverse('home'))
 		# If link exists
 	else:
-		return HttpResponse('error')
+		return redirect(reverse('home'))
 	if request.method == 'POST':
 		# Try to decrypt file with the given password in URL
 		try:
 			msg = decrypt(link, passwd).decode('utf-8')
 			col.delete_one(link)
-			return render(request, 'msg/read.html', {'msg': msg, 'success': True})
+			return render(request, 'msg/index.html', {'msg': msg, 'read': True})
 		except:
-			return HttpResponse('error')
+			return redirect(reverse('home'))
 	elif request.method == 'GET':
 		return render(request, 'msg/read.html')
