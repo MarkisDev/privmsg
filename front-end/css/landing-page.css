@@ -9,12 +9,24 @@ body{
     color: white !important;
     font-family: 'poppins',sans-serif !important;
 }
+.link {
+    color: rgb(141, 141, 141);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+.link:hover {
+    color: white !important;
+}
+
 .head{
     width: fit-content;
 }
 h1 a{
     text-decoration: none;
     color:white;
+}
+.head-space {
+    padding-top: 10%;
 }
 .box{
     background-color: white;
@@ -38,6 +50,7 @@ h1 a{
 .foot a{
     text-decoration: none;
     color: white;
+    transition: color 0.2s ease-in-out;
 }
 
 h1 a:hover , .foot a:hover{
