@@ -43,7 +43,10 @@ body{
 .small-form {
     padding: 16px;
 }
-
+.alert{
+    font-size: 13px;
+    color:red;
+}
 .form-control{
     height: 67%;
 
@@ -59,4 +62,5 @@ body{
 .small-form textarea{
     background-color: #4F4F4F;
     border: none;
+    color:white;
 }
