@@ -1,0 +1,6 @@
+{
+	"connection": "mongodb+srv://markis:cmritproject123@cluster0.313vp.mongodb.net/priv?authSource=admin&replicaSet=atlas-fkelf3-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true",
+	"username": "",
+	"password": "",
+	"db_name": "privmsg"
+}

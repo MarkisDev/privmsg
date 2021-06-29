@@ -2,6 +2,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django import urls
+from django.conf import settings
 from django.contrib import messages
 import hashlib
 import pymongo
@@ -12,15 +13,12 @@ import random
 import json
 
 
-with open('chat/config.json') as f:
-    contents = json.load(f)
-    if contents["DATABASE"]:
-        # If database_url configured in config.json
-        db_url = contents['DATABASE_URL'] 
-        db_client = pymongo.MongoClient(db_url)
-        # Selecting database
-        db = db_client['privmsg']
-        col = db["rooms"]
+# Initializing database client 
+db_client = pymongo.MongoClient(settings.MONGODB_AUTH['connection'])
+# Selecting database
+db = db_client[settings.MONGODB_AUTH['db_name']]
+# Selecting collection
+col = db["rooms"]
 
 # Function to handle the form to create room
 def index(request):

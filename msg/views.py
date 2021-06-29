@@ -2,6 +2,7 @@ import hashlib
 from Crypto.Random import get_random_bytes
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
+from django.conf import settings
 from django import urls
 import pymongo
 import random
@@ -10,11 +11,11 @@ from Crypto.Cipher import AES
 import datetime
 from base64 import b64encode,b64decode
 
-# Create your views here.
-db_client = pymongo.MongoClient(
-    'mongodb+srv://markis:cmritproject123@cluster0.313vp.mongodb.net/priv?authSource=admin&replicaSet=atlas-fkelf3-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true')
+# Initializing database client 
+db_client = pymongo.MongoClient(settings.MONGODB_AUTH['connection'])
 # Selecting database
-db = db_client['privmsg']
+db = db_client[settings.MONGODB_AUTH['db_name']]
+# Selecting collection
 col = db["msg"]
 
 # Function to encrypt plaintext
