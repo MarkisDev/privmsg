@@ -14,6 +14,6 @@ PrivMsg uses AES-256 bit encryption to encrypt your messages and notes. PrivMsg 
 
 This project wouldn't have been possible without the contributions of the following people:
 
-@MarkisDev  
-@Gokul1here  
-@V01D0
+[MarkisDev](https://github.com/MarkisDev)  
+[Gokul1here](https://github.com/Gokul1here)  
+[V01D0](https://github.com/V01D0)
