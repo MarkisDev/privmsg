@@ -18,6 +18,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Function to handle connections when someone joins 
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
+        #self.username = self.scope['query_string'].decode('utf8').split('=',1)[1]
+        #self.username = "U2FsdGVkX1+iQxi0R6ARwCUcZ5DqpgZ0a/swcnng2dg="
         self.room_group_name = 'chat_%s' % self.room_name
         # Incrementing connected clients by one
         col.update({'room_name':self.room_name}, {'$inc': {'connected_clients': 1}})
@@ -43,9 +45,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'leave.message',
-                'username': self.username,
+                'username': self.scope['query_string'].decode('utf8').split('=',1)[1],
             }
         )
+
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -102,7 +105,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                 <!-- username and time -->
                                 <div class="col h-20">
                                     <div class="row user-info">
-                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name"></p>
+                                        <p class="col-5 m-0 ps-3 pe-1 w-auto user-name"></p>
                                         <p class="col m-0 pt-1 px-1 user-time">1</p>
                                     </div>
                                     <!-- text message -->
@@ -124,7 +127,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def join_message(self, event):
         # Setting username in instance
         room = col.find_one({'room_name':self.room_name}, {'_id':0, 'created_at':0, 'messages':0})
-        self.username = event['username']
+        # self.username = event['username']
         msg_structure = """<div class="pe-2 row my-3 ">
                             <div class="d-flex">
                                 <!-- username in box -->
@@ -136,7 +139,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                 <!-- username and time -->
                                 <div class="col h-20">
                                     <div class="row user-info">
-                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
+                                        <p class="col-5 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
                                         <p class="col m-0 pt-1 px-1 user-time"></p>
                                     </div>
                                     <!-- text message -->
@@ -168,7 +171,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                 <!-- username and time -->
                                 <div class="col h-20">
                                     <div class="row user-info">
-                                        <p class="col-1 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
+                                        <p class="col-5 m-0 ps-3 pe-1 w-auto user-name">PrivMsg</p>
                                         <p class="col m-0 pt-1 px-1 user-time"></p>
                                     </div>
                                     <!-- text message -->
@@ -181,7 +184,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'structure': msg_structure,
-            'username': self.username,
+            'username': event['username'],
             'system': True,
             "clients": room['connected_clients'],
         }))

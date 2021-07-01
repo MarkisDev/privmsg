@@ -13,6 +13,10 @@ body{
     overflow: hidden;
 }
 
+/* for breaking word */
+.main-container {
+    word-break: break-word;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 6px;
@@ -39,12 +43,12 @@ html, body {
     background: #1d1d1d; 
     height: 100%;
     border-radius: 10px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .chat-area {
-    overflow: auto;
-    height: 75vh;
+    /* overflow: auto; */
+    height: 65vh;
     overflow-x: hidden;
 }
 
@@ -89,7 +93,6 @@ html, body {
     font-weight: 200;
     letter-spacing: 0.04em;
     word-wrap: break-word;
-    padding-right: 100px;
 }
 .user-texts strong{
     font-weight: 600;

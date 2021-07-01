@@ -13,6 +13,10 @@ body{
     overflow: hidden;
 }
 
+/* for breaking word */
+.main-container {
+    word-break: break-word;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 6px;
@@ -35,13 +39,6 @@ html, body {
     margin: 0px; 
     height: 100%; 
 } 
-/* .box { background: red; height: 100%; } */
-/* .box { 
-    background: red; 
-    height: 90vh; 
-    width: 95%;
-    margin: auto;
-} */
 .box { 
     background: #1d1d1d; 
     height: 100%;
@@ -50,8 +47,8 @@ html, body {
 }
 
 .chat-area {
-    overflow: scroll;
-    height: 75vh;
+    /* overflow: auto; */
+    height: 65vh;
     overflow-x: hidden;
 }
 
@@ -96,7 +93,6 @@ html, body {
     font-weight: 200;
     letter-spacing: 0.04em;
     word-wrap: break-word;
-    padding-right: 100px;
 }
 .user-texts strong{
     font-weight: 600;
@@ -109,7 +105,8 @@ html, body {
     border: none;
     resize: none;
     text-align: left;
-    
+    color: rgb(179, 174, 174);
+
 }
 .chat-box textarea:focus{
     outline: none;
@@ -117,6 +114,7 @@ html, body {
     background: #4F4F4F;
     color: #fff;
 }
+
 .chat-box input::placeholder{
     font-family: 'Poppins', sans-serif;
 }

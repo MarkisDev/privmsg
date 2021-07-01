@@ -17,8 +17,11 @@ function decryptText(ciphertext, password)
 function initWS()
 {
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const username = JSON.parse(document.getElementById('username').textContent);
+    const password = getCookie('password');
+
     // Initialize WebSocket
-    const websocket_uri = 'ws://' + window.location.host + '/ws/chat/' + roomName + '/';
+    const websocket_uri = 'ws://' + window.location.host + '/ws/chat/' + roomName + '/?username=' + encryptText(username, password);
     const chatSocket = new WebSocket(websocket_uri);
 
     // Called when user joins!
@@ -34,11 +37,10 @@ function initWS()
         }));
     }
 
+
     // Called when user leaves!
     chatSocket.onclose = function (e)
     {
-        const username = JSON.parse(document.getElementById('username').textContent);
-        const password = getCookie('password');
         chatSocket.send(JSON.stringify({
             'type': 'leave.message',
             'username': encryptText(username, password)
@@ -47,8 +49,6 @@ function initWS()
     // Called when user leaves!
     chatSocket.onerror = function (e)
     {
-        const username = JSON.parse(document.getElementById('username').textContent);
-        const password = getCookie('password');
         chatSocket.send(JSON.stringify({
             'type': 'leave.message',
             'username': encryptText(username, password)
@@ -66,7 +66,6 @@ function initWS()
         n_msg.insertAdjacentElement('beforeend', msgicon);
 
         // Checking if it's a ping
-        const password = getCookie('password');
         const data = JSON.parse(e.data);
 
         // Checking if it is system generated
@@ -126,14 +125,40 @@ function initWS()
     };
 
     document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function (e)
+
+    // To set flag for shift!
+    let keysPressed = {};
+    document.querySelector('#chat-message-input').addEventListener('keydown', (event) =>
     {
-        // If message not empty and enter, return is pressed
-        if (this.value.trim() != '' && e.keyCode === 13 && this.value != "\n")
-        {  // enter, return
-            document.querySelector('#chat-message-submit').click();
+        keysPressed[event.key] = true;
+        // Enter was pressed
+        if (event.key == 'Enter')
+        {
+            // Shift wasn't pressed so we can proceed with message
+            if (!keysPressed['Shift'])
+            {
+                // Checking if message isn't empty, else send
+                if (document.querySelector('#chat-message-input').value.trim() != '' && document.querySelector('#chat-message-input').value != "\n") 
+                {
+                    document.querySelector('#chat-message-input').blur();
+                    // document.querySelector('#chat-message-input').value = "";
+                    document.querySelector('#chat-message-submit').click();
+
+                    // document.querySelector('#chat-message-input').disabled = false;
+                    // document.querySelector('#chat-message-input').focus();
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
-    };
+    });
+
+    document.querySelector('#chat-message-input').addEventListener('keyup', (event) =>
+    {
+        delete keysPressed[event.key];
+    });
     // TO get cookies
     function getCookie(cname)
     {
@@ -157,9 +182,7 @@ function initWS()
     // Sending message to websocket
     document.querySelector('#chat-message-submit').onclick = function (e)
     {
-        const username = JSON.parse(document.getElementById('username').textContent);
         const color = JSON.parse(document.getElementById('color').textContent);
-        const password = getCookie('password');
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
         // If message not empty
@@ -173,6 +196,9 @@ function initWS()
             }));
             messageInputDom.value = '';
         }
+        document.getElementById('chat-message-input').removeAttribute("style");
+
+
     };
 
 }
@@ -187,11 +213,30 @@ function setCookie()
 // Function to make dynamic text area
 function autoResize()
 {
-    this.style.height = 'auto';
-    this.style.height = this.scrollHeight + 'px';
+    if (this.scrollHeight >= 150)
+    {
+        this.style.overflowY = 'auto';
+    }
+    else
+    {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    }
+
 }
-textarea = document.getElementById('chat-message-input');
+var textarea = document.getElementById('chat-message-input');
 textarea.addEventListener('input', autoResize, false);
+
+
+// Send button listener
+// function resetSize()
+// {
+//     document.querySelector('#chat-message-submit').click();
+
+//     document.getElementById('chat-message-input').removeAttribute("style");
+// }
+// send = document.getElementById('chat-message-submit');
+// send.addEventListener('click', resetSize);
 
 // Readable number
 function abbrNum(number, decPlaces)
@@ -219,7 +264,7 @@ function abbrNum(number, decPlaces)
 function copyURL()
 {
     var dummy = document.createElement('input'),
-    text = window.location.href;
+        text = window.location.href;
     document.body.appendChild(dummy);
     dummy.value = text;
     dummy.select();
