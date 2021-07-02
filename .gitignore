@@ -4,3 +4,4 @@ core/__pycache__
 chat/migrations
 msg/__pycache__
 msg/migrations
+./privmsg.zip

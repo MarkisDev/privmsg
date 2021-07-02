@@ -5,9 +5,9 @@ import pymongo
 import datetime
 import random
 
-# Initializing database client
+# Initializing database client ENTER URL HERE
 db_client = pymongo.MongoClient(
-    'mongodb+srv://markis:cmritproject123@cluster0.313vp.mongodb.net/priv?authSource=admin&replicaSet=atlas-fkelf3-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true')
+    '')
 # Selecting database
 db = db_client['privmsg']
 col = db["rooms"]

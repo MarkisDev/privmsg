@@ -141,11 +141,8 @@ function initWS()
                 if (document.querySelector('#chat-message-input').value.trim() != '' && document.querySelector('#chat-message-input').value != "\n") 
                 {
                     document.querySelector('#chat-message-input').blur();
-                    // document.querySelector('#chat-message-input').value = "";
                     document.querySelector('#chat-message-submit').click();
 
-                    // document.querySelector('#chat-message-input').disabled = false;
-                    // document.querySelector('#chat-message-input').focus();
                 }
                 else
                 {
@@ -228,15 +225,6 @@ var textarea = document.getElementById('chat-message-input');
 textarea.addEventListener('input', autoResize, false);
 
 
-// Send button listener
-// function resetSize()
-// {
-//     document.querySelector('#chat-message-submit').click();
-
-//     document.getElementById('chat-message-input').removeAttribute("style");
-// }
-// send = document.getElementById('chat-message-submit');
-// send.addEventListener('click', resetSize);
 
 // Readable number
 function abbrNum(number, decPlaces)
