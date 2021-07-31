@@ -1,5 +1,3 @@
-# PrivMsg
-E2E Burner Chat Rooms - (Readable Readme soon)
 
 # What is PrivMsg?
 PrivMsg is a Free and Open Source Software that is also self-hostable. It is built to be an instant messaging and burn note service. It is written and built with django channels and mongodb.
@@ -10,6 +8,10 @@ PrivMsg uses AES-256 bit encryption to encrypt your messages and notes. PrivMsg 
 - Django
 - Django Channels for WebSockets
 
+# Contact
+
+Feel free to reach me at markisdev@gmail.com or [join my discord server.](https://join.markis.dev)  
+ 
 # Credits
 
 This project wouldn't have been possible without the contributions of the following people:
